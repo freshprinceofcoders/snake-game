@@ -20,9 +20,15 @@ pygame.display.update()
 clock = pygame.time.Clock()
 snake_speed = 30
 fontz = pygame.font.SysFont(None, 50)
+bg = pygame.image.load('SNAKE.jpg')
+char = pygame.image.load('snakes.png')
 def message(msg,color):
     mesg = fontz.render(msg,True,color)
     dis.blit(mesg, [dis_width/2,dis_height/2])
+def redraw():
+    dis.blit(bg, (0,0))
+    dis.blit(char,(x1,y1))   
+    pygame.display.update()
 
 while not gameovercondition:
     for event in pygame.event.get():
@@ -43,23 +49,22 @@ while not gameovercondition:
                 x1_change = 0
     if x1 >= dis_width or x1 < 0 or y1 >= dis_height or y1 < 0:
         gameovercondition = True
-    
+
     x1 += x1_change
     y1 += y1_change
-    dis.fill(blue)            
-    pygame.draw.rect(dis, red, [x1, y1, block_snake, block_snake])
-    
-   
-    pygame.display.update()
-   
-    clock.tick(snake_speed)
+    #dis.fill(blue)            
+    pygame.draw.rect(dis, white, [x1, y1, block_snake, block_snake])
 
+
+    pygame.display.update()
+
+    clock.tick(snake_speed)
+        
+    redraw()
 message("YOU LOST!!!",black)
 pygame.display.update()
 time.sleep(2)
 
-        
 
 pygame.quit()
 quit()
-

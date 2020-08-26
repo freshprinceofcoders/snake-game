@@ -7,48 +7,53 @@ pygame.init()#starting the program using init which initialize all pygame module
 
 white = (255,255,255)
 black = (0,0,0)
-red = (213,50,80) #assigng colours to there hexidecimal numbers
+red = (213,50,80) #assigng colours to there RGB colour code numbers
 blue = (50,153,213)
 green = (0,255,0)
 yellow = (255,255,102)
 
-dis_width = 600  #assignig the height and width to intergers 
-dis_height = 400
+dis_width = 700  #assignig the height and width to intergers 
+dis_height = 500
 
 dis = pygame.display.set_mode((dis_width, dis_height)) #setting the height and width so the pop up box is the same size
 pygame.display.set_caption("Snake game by Milan") #the name on top of the pop up box is in the string
 clock = pygame.time.Clock()#this is created to keep track of time
 
 snake_block = 10# these are the borders of how far the snake can go
-snake_speed = 15 #assigning speed of snake to int
+snake_speed = 8#assigning speed of snake to int
 
 font_style = pygame.font.SysFont("bahnschrift",25)# these are font objects created from the system
 score_font = pygame.font.SysFont("comicsansms",35)#the string is a type of font
-'''
+
 bg = pygame.image.load('SNAKE.jpg')
 char = pygame.image.load('snakes.png')
-'''
+
 x1 = dis_width / 2 # new variable x1 divides the width and height of di
 y1 = dis_height / 2
+
 
 
 def Your_score(score):#definng the score that is diplayed on the top left
     value = score_font.render("Your Score: " + str(score), True, yellow) #defing a variavle value and drawing text on the surfaceand using a colour variable and displaying the score
     dis.blit(value, [0, 0])#putting it on the value/cooridinates of the pop up box
+    if int(score) > 3:
+        snake_speed = 12
  
 def our_snake(snake_block, snake_list):#defing making the snake
     for x in snake_list:#for loop to show everytime the score goes up then the snake gets bigger
-        pygame.draw.rect(dis, black, [x[0], x[1], snake_block, snake_block])#making the snake bigger by one everytime the score goes up
+        #pygame.draw.rect(dis, black, [x[0], x[1], snake_block, snake_block])#making the snake bigger by one everytime the score goes up
+        dis.blit(char, [x[0], x[1], snake_block, snake_block])
 
-def message(msg,color):#this defines message so later o n you can write a message and it will output on the screen
+def message(msg,color):#this defines message so later on you can write a message and it will output on the screen
     mesg = font_style.render(msg, True, color) #assigning a variable so you can display text onto the display 
     dis.blit(mesg, [dis_width / 6, dis_height / 3]) #the will draw or display the image or letter
-'''
+
 def redraw():
     dis.blit(bg, (0,0))
-    dis.blit(char,(x1,y1))   
-   pygame.display.update()
-'''
+    #dis.blit(char,(x1,y1))   
+
+pygame.display.update()
+
 def gameLoop():#this is defing the loop of the game
     game_over = False#setting conditions to the game so if is true game will be over
     game_close = False
@@ -63,7 +68,7 @@ def gameLoop():#this is defing the loop of the game
     Lenght_of_snake = 1#giving the lenght of the snake
 
     foodx = round(random.randrange(0, dis_width - snake_block) / 10.0) * 10.0#this is where the food is placed as it is rounded so it is placed anywhere on the grid and it does not land on the same play again and a again
-    foody = round(random.randrange(0,dis_height - snake_block) / 10.0) * 10.0#also it selects a random number inbetwwen the equation
+    foody = round(random.randrange(0, dis_height - snake_block) / 10.0) * 10.0#also it selects a random number inbetwwen the equation
     
     while not game_over:#stating a loop
 
@@ -111,7 +116,7 @@ def gameLoop():#this is defing the loop of the game
         if len(snake_list) > Lenght_of_snake:#condition
             del snake_list[0]#delete first item in the listand will loop through
         
-        for x in snake_list[:-1]:#prits on newline
+        for x in snake_list[:-1]:#prints on newline
             if x == snake_head:#condition
                 game_close = True
 
@@ -120,19 +125,15 @@ def gameLoop():#this is defing the loop of the game
         
         pygame.display.update()
 
-        if x1 == foodx and y1 == foody:#condition
+        print(x1,x1-64,y1,y1-64,foodx,foody)
+        if x1-64<=foodx>(x1) and y1-64<=foody>(y1):#condition
             foodx = round(random.randrange(0, dis_width - snake_block) / 10.0) * 10.0
             foody = round(random.randrange(0, dis_height - snake_block) / 10.0) * 10.0
             Lenght_of_snake += 1#add lenght to snake
- 
         clock.tick(snake_speed)#this will output with the time it took
-        
-       # redraw()
+        redraw()
 
     pygame.quit()#code finished
     quit()
 
-
-
 gameLoop()#calling the loop
-
